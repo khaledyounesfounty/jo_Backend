@@ -11,6 +11,7 @@ import lombok.Setter;
 @Table(name = "utilisateur")
 public class Utilisateur {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_utilisateur", nullable = false)
     private Integer id;
 
@@ -18,6 +19,7 @@ public class Utilisateur {
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idUtilisateur", nullable = false)
     private Utilisateurprincipal utilisateurprincipal;
+
 
     @Size(max = 100)
     @Column(name = "cleUtilisateur", length = 100)
