@@ -1,6 +1,8 @@
 package com.jo.paris2024.entities;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -20,11 +22,14 @@ public class Offre {
     @Column(name = "idoffre", nullable = false)
     private Integer id;
 
-    @NotNull
+    @NotNull(message = "Le champs description ne doit pas etre null")
+    @NotEmpty(message="pas vide")
+    @NotBlank(message="pas  d espaces")
     @Lob
     @Column(name = "description", nullable = false)
     private String description;
-
+    @Column(name ="titre",nullable = false)
+    private String titre;
     @NotNull
     @Column(name = "prix", nullable = false)
     private Float prix;
