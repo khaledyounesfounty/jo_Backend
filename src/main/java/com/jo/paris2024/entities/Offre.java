@@ -56,6 +56,6 @@ public class Offre {
     private Set<Billet> billets = new LinkedHashSet<>();
 
     @OneToMany(mappedBy = "idOffre")
-    private Set<Offredanspanier> offredanspaniers = new LinkedHashSet<>();
+    private Set<OffreDansPanier> offreDansPaniers = new LinkedHashSet<>();
 
 }

@@ -3,7 +3,6 @@ package com.jo.paris2024.services;
 import com.jo.paris2024.entities.Offre;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface OffreService {
 
@@ -12,15 +11,19 @@ public interface OffreService {
 
      void saveOffre(Offre offre);
 
-     void updateOffre(Integer id, Offre offre);
+     Offre updateOffre(Integer id, Offre offre);
+     boolean offreExists(Integer id);
 
-     void deleteOffreParId(Integer id);
+
 
 
 
      abstract void deleteOffreById(Integer id);
 
      Offre getOffreById(Integer id);
+
+
+
 
 
 }

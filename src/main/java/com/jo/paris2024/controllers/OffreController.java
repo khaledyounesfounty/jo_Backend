@@ -17,6 +17,7 @@ public class OffreController {
     OffreService offreService;
     @GetMapping
     public ResponseEntity<?> getAllOffre(){
+
         return ResponseEntity.ok(offreService.getAllOffres());
     }
     @GetMapping("/{id}")
@@ -37,15 +38,39 @@ public class OffreController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Void> updateOffre(@PathVariable Integer id, @RequestBody Offre offre) {
-        offreService.updateOffre(id, offre);
+
+        if (!offreService.offreExists(id)) {
+            // Si l'offre n'existe pas, retourner une réponse avec le code 404 (Non trouvé)
+            return ResponseEntity.notFound().build();
+        }
+
+        // Mettre à jour l'offre avec les nouvelles données fournies
+        Offre updatedOffre = offreService.updateOffre(id, offre);
+
+        if (updatedOffre == null) {
+            // Si la mise à jour échoue pour une raison quelconque, retourner une réponse avec le code 500 (Erreur interne du serveur)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
+        // Retourner une réponse avec le code 200 (OK) pour indiquer que la mise à jour a été effectuée avec succès
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/{id}")
+    /*@DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOffreById(@PathVariable Integer id) {
         offreService.deleteOffreParId(id);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.ok().build();*/
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteOffre(@PathVariable Integer id) {
+        if (offreService.offreExists(id)) {
+            offreService.deleteOffreById(id);
+            return ResponseEntity.ok("L'offre avec l'ID " + id + " a été supprimée avec succès.");
+        } else {
+            return ResponseEntity.notFound().build();
+           // return ResponseEntity.status(HttpStatus.NOT_FOUND).body("L'offre avec l'ID " + id + " n'a pas été trouvée.");
+        }
+    }
     }
 
 
-}
+

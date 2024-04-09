@@ -22,6 +22,6 @@ public class Panier {
     private Utilisateurprincipal idUtilisateur;
 
     @OneToMany(mappedBy = "idPanier")
-    private Set<Offredanspanier> offredanspaniers = new LinkedHashSet<>();
+    private Set<OffreDansPanier> offreDansPaniers = new LinkedHashSet<>();
 
 }

@@ -14,7 +14,7 @@ public class PanierServiceImpl implements PanierService {
     @Autowired
     private PanierRepository panierRepository;
     @Override
-    public List<Panier> getPaniers(){
+    public List<Panier> getAllPaniers(){
         return panierRepository.findAll();
 
     }
@@ -26,6 +26,8 @@ public class PanierServiceImpl implements PanierService {
     public Panier createPanier(Panier panier) {
         return panierRepository.save(panier);
     }
+
+
     @Override
     public Panier updatePanier(Integer id, Panier updatedPanier) {
         if (panierRepository.existsById(id)) {
@@ -36,13 +38,10 @@ public class PanierServiceImpl implements PanierService {
         }
     }
     @Override
-    public void deletePanier(Integer id) {
+    public void deletePanierById(Integer id) {
         panierRepository.deleteById(id);
     }
 
-    @Override
-    public List<Panier> getALLPaniers() {
-        return null;
-    }
+
 
 }

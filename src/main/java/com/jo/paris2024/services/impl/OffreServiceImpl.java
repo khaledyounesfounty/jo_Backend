@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OffreServiceImpl implements OffreService {
@@ -24,6 +25,9 @@ public class OffreServiceImpl implements OffreService {
         throw new IllegalArgumentException("Pas D'offres disponibles");
 
     }
+    public Offre getOffreById(Integer id) {
+        return offreRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Pas d offre disponible sur cet id"));
+    }
     @Override
     public void saveOffre(Offre offre) {
         if (!offreRepository.findByTitre(offre.getTitre()).isEmpty()){
@@ -35,39 +39,43 @@ public class OffreServiceImpl implements OffreService {
     }
 
     @Override
-    public void updateOffre(Integer id, Offre offre) {
-        Offre offreExistante = getOffreBYId(id);
-        offreExistante.setDescription(offre.getDescription());
-        offreExistante.setPrix(offre.getPrix());
-        offreExistante.setType(offre.getType());
-        offreExistante.setCategorie(offre.getCategorie());
-        offreExistante.setDateEvent(offre.getDateEvent());
-        offreExistante.setNbMaxPlace(offre.getNbMaxPlace());
-        offreExistante.setNbActualPlace(offre.getNbActualPlace());
-        offreRepository.save(offreExistante);
+    public Offre updateOffre(Integer id, Offre offre) {
+
+
+        Optional<Offre> optionalOffre = offreRepository.findById(id);
+
+        if (optionalOffre.isPresent()) {
+            Offre existingOffre = optionalOffre.get();
+
+            existingOffre.setTitre(offre.getTitre());
+            existingOffre.setDescription(offre.getDescription());
+
+
+
+            return offreRepository.save(existingOffre);
+        } else {
+
+            return null;
+        }
     }
 
     @Override
-    public void deleteOffreParId(Integer id) {
-
+    public boolean offreExists(Integer id) {
+        return offreRepository.existsById(id);
     }
 
 
 
-    private Offre getOffreBYId(Integer id) {
-        Offre o = null;
-        return o;
-    }
+
+
+
+
 
     @Override
     public void deleteOffreById(Integer id) {
-        Offre offreExistante = getOffreById(id);
-        offreRepository.delete(offreExistante);
+        offreRepository.deleteById(id);
     }
 
-    public Offre getOffreById(Integer id) {
-        return offreRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Pas d offre disponible sur cet id"));
-    }
 
 
 

@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface PanierService {
-    List<Panier> getPaniers();
+    List<Panier> getAllPaniers();
     Optional<Panier> getPanierById(Integer id);
     Panier createPanier(Panier panier);
     Panier updatePanier(Integer id, Panier updatedPanier);
-    void deletePanier(Integer id);
+    void deletePanierById(Integer id);
 
-    List<Panier> getALLPaniers();
+
 }

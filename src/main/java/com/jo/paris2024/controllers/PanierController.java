@@ -18,7 +18,7 @@ public class PanierController {
 
     @GetMapping
     public ResponseEntity<List<Panier>> getAllPaniers() {
-        List<Panier> paniers = panierService.getALLPaniers();
+        List<Panier> paniers = panierService.getAllPaniers();
         return ResponseEntity.ok(paniers);
 
     }
@@ -41,7 +41,7 @@ public class PanierController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePanier(@PathVariable("id") Integer id) {
-        panierService.deletePanier(id);
+        panierService.deletePanierById(id);
         return ResponseEntity.noContent().build();
     }
 }
