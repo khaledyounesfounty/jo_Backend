@@ -20,6 +20,7 @@ public class PanierController {
     public ResponseEntity<List<Panier>> getAllPaniers() {
         List<Panier> paniers = panierService.getAllPaniers();
         return ResponseEntity.ok(paniers);
+        //todo: ajouter le cas panier vide
 
     }
     @GetMapping("/{id}")

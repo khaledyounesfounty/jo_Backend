@@ -1,5 +1,6 @@
 package com.jo.paris2024.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -51,10 +52,10 @@ public class Offre {
 
     @Column(name = "nbActualPlace")
     private Integer nbActualPlace;
-
+    @JsonIgnore
     @OneToMany(mappedBy = "offre")
     private Set<Billet> billets = new LinkedHashSet<>();
-
+    @JsonIgnore
     @OneToMany(mappedBy = "idOffre")
     private Set<OffreDansPanier> offreDansPaniers = new LinkedHashSet<>();
 

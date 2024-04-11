@@ -12,11 +12,6 @@ public interface OffreService {
      void saveOffre(Offre offre);
 
      Offre updateOffre(Integer id, Offre offre);
-     boolean offreExists(Integer id);
-
-
-
-
 
      abstract void deleteOffreById(Integer id);
 

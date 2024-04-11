@@ -25,12 +25,14 @@ public class OffreServiceImpl implements OffreService {
         throw new IllegalArgumentException("Pas D'offres disponibles");
 
     }
+
     public Offre getOffreById(Integer id) {
-        return offreRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("Pas d offre disponible sur cet id"));
+        return offreRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Pas d offre disponible sur cet id"));
     }
+
     @Override
     public void saveOffre(Offre offre) {
-        if (!offreRepository.findByTitre(offre.getTitre()).isEmpty()){
+        if (!offreRepository.findByTitre(offre.getTitre()).isEmpty()) {
             throw new IllegalArgumentException("offre existe deja avec le meme titre");
         }
 
@@ -45,40 +47,47 @@ public class OffreServiceImpl implements OffreService {
         Optional<Offre> optionalOffre = offreRepository.findById(id);
 
         if (optionalOffre.isPresent()) {
+
             Offre existingOffre = optionalOffre.get();
+            if (!offre.getTitre().equals(optionalOffre.get().getTitre())) {
+                if (!offreRepository.findByTitre(offre.getTitre()).isEmpty()) {
+                    throw new IllegalArgumentException("offre existe deja avec le meme titre");
 
-            existingOffre.setTitre(offre.getTitre());
+                }
+                existingOffre.setTitre(offre.getTitre());
+
+
+            }
             existingOffre.setDescription(offre.getDescription());
-
-
-
+            existingOffre.setDateEvent(offre.getDateEvent());
+            existingOffre.setCategorie(offre.getCategorie());
+            existingOffre.setNbActualPlace(offre.getNbActualPlace());
+            existingOffre.setNbMaxPlace(offre.getNbMaxPlace());
+            existingOffre.setPrix(offre.getPrix());
+            existingOffre.setType(offre.getType());
             return offreRepository.save(existingOffre);
         } else {
 
-            return null;
+            throw new RuntimeException("L'offre ne peut pas etre modifiée:L'offre néexiste pas");
         }
     }
-
-    @Override
-    public boolean offreExists(Integer id) {
-        return offreRepository.existsById(id);
-    }
-
-
-
-
-
-
 
 
     @Override
     public void deleteOffreById(Integer id) {
+        Optional<Offre> optionalOffre = offreRepository.findById(id);
+
+        if (optionalOffre.isPresent()) {
+            if (!optionalOffre.get().getBillets().isEmpty()) {
+                throw new RuntimeException("Lié à d'autres ressources");
+            }
+
+        } else
+            throw new RuntimeException("L'offre ne peut pas etre supprimée:L'offre n'existe pas");
+
+
         offreRepository.deleteById(id);
     }
-
-
-
-
 
 
 }
