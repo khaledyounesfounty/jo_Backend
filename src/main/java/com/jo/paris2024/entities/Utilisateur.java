@@ -1,5 +1,6 @@
 package com.jo.paris2024.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -14,13 +15,13 @@ public class Utilisateur {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_utilisateur", nullable = false)
     private Integer id;
-
+@JsonIgnore
     @MapsId
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idUtilisateur", nullable = false)
     private Utilisateurprincipal utilisateurprincipal;
 
-
+    @JsonIgnore
     @Size(max = 100)
     @Column(name = "cleUtilisateur", length = 100)
     private String cleUtilisateur;

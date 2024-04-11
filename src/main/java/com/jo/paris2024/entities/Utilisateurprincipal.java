@@ -1,5 +1,6 @@
 package com.jo.paris2024.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -35,7 +36,7 @@ public class Utilisateurprincipal {
     @NotNull
     @Column(name = "prenom", nullable = false)
     private String prenom;
-
+    @JsonIgnore
     @Size(max = 255)
     @NotNull
     @Column(name = "mot_de_passe", nullable = false)
@@ -45,7 +46,7 @@ public class Utilisateurprincipal {
     @NotNull
     @Column(name = "role", nullable = false, length = 5)
     private String role = "USER";
-
+    @JsonIgnore
     @OneToOne(mappedBy = "utilisateurprincipal")
     private Administrateur administrateur;
 

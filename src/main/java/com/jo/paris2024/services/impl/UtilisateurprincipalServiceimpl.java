@@ -77,4 +77,12 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
         registerNewUser(user);
         return new UserDTO(user);
     }
+
+    @Override
+    public Utilisateurprincipal getUserDetails(String userName) {
+        Utilisateurprincipal utilisateurprincipal =userRepository.findByEmail(userName);
+        return utilisateurprincipal;
+
+
+    }
 }

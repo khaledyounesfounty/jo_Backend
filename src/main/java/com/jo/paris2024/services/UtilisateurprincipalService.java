@@ -8,4 +8,5 @@ public interface UtilisateurprincipalService {
     Utilisateurprincipal getUserByUsername(String username);
     Utilisateurprincipal getCurrentUser();
     UserDTO registerUser(Utilisateurprincipal user);
+    Utilisateurprincipal getUserDetails(String userName);
 }
