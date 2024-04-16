@@ -14,14 +14,15 @@ import java.util.Set;
 public class Panier {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_panier", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idUtilisateur")
-    private Utilisateurprincipal idUtilisateur;
+    private Double sommmeTotal;
 
-    @OneToMany(mappedBy = "idPanier")
-    private Set<OffreDansPanier> offreDansPaniers = new LinkedHashSet<>();
+    @OneToOne(mappedBy = "panier")
+    private Utilisateur utilisateur;
+
+    @OneToMany(mappedBy = "idPanier", fetch = FetchType.LAZY)
+    private Set<Reservation> reservations = new LinkedHashSet<>();
 
 }

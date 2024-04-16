@@ -1,5 +1,7 @@
 package com.jo.paris2024.services.impl;
 
+import com.jo.paris2024.DTO.OffreDto;
+import com.jo.paris2024.Mapper.OffreMapper;
 import com.jo.paris2024.entities.Offre;
 import com.jo.paris2024.repository.OffreRepository;
 import com.jo.paris2024.services.OffreService;
@@ -13,6 +15,8 @@ import java.util.Optional;
 public class OffreServiceImpl implements OffreService {
     @Autowired
     OffreRepository offreRepository;
+    @Autowired
+    private OffreMapper offreMapper;
 
     @Override
     public List<Offre> getAllOffres() {
@@ -31,17 +35,16 @@ public class OffreServiceImpl implements OffreService {
     }
 
     @Override
-    public void saveOffre(Offre offre) {
+    public void saveOffre(OffreDto offre) {
         if (!offreRepository.findByTitre(offre.getTitre()).isEmpty()) {
             throw new IllegalArgumentException("offre existe deja avec le meme titre");
         }
-
-        offreRepository.save(offre);
+        offreRepository.save(offreMapper.toEntity(offre));
 
     }
 
     @Override
-    public Offre updateOffre(Integer id, Offre offre) {
+    public Offre updateOffre(Integer id, OffreDto offre) {
 
 
         Optional<Offre> optionalOffre = offreRepository.findById(id);
@@ -51,24 +54,18 @@ public class OffreServiceImpl implements OffreService {
             Offre existingOffre = optionalOffre.get();
             if (!offre.getTitre().equals(optionalOffre.get().getTitre())) {
                 if (!offreRepository.findByTitre(offre.getTitre()).isEmpty()) {
-                    throw new IllegalArgumentException("offre existe deja avec le meme titre");
+                    throw new IllegalArgumentException("L'offre existe déja avec le meme titre");
 
                 }
                 existingOffre.setTitre(offre.getTitre());
 
-
             }
             existingOffre.setDescription(offre.getDescription());
-            existingOffre.setDateEvent(offre.getDateEvent());
-            existingOffre.setCategorie(offre.getCategorie());
-            existingOffre.setNbActualPlace(offre.getNbActualPlace());
-            existingOffre.setNbMaxPlace(offre.getNbMaxPlace());
-            existingOffre.setPrix(offre.getPrix());
-            existingOffre.setType(offre.getType());
+            existingOffre.setRemise(offre.getRemise());
             return offreRepository.save(existingOffre);
         } else {
 
-            throw new RuntimeException("L'offre ne peut pas etre modifiée:L'offre néexiste pas");
+            throw new RuntimeException("L'offre ne peut pas etre modifiée:L'offre n'existe pas");
         }
     }
 
@@ -78,17 +75,12 @@ public class OffreServiceImpl implements OffreService {
         Optional<Offre> optionalOffre = offreRepository.findById(id);
 
         if (optionalOffre.isPresent()) {
-            if (!optionalOffre.get().getBillets().isEmpty()) {
-                throw new RuntimeException("Lié à d'autres ressources");
-            }
+            offreRepository.deleteById(id);
 
         } else
             throw new RuntimeException("L'offre ne peut pas etre supprimée:L'offre n'existe pas");
-
-
         offreRepository.deleteById(id);
     }
-
 
 }
 

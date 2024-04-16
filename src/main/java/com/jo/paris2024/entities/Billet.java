@@ -25,18 +25,19 @@ public class Billet {
     private Boolean validite = false;
 
     @Size(max = 255)
-    @Column(name = "cleBillet")
+    @Column(name = "cle_billet")
     private String cleBillet;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "offreId")
-    private Offre offre;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_reservation")
+    private Reservation reservation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idUtilisateur")
-    private Utilisateurprincipal idUtilisateur;
+    @JoinColumn(name = "id_utilisateur")
+    private Utilisateur idUtilisateur;
 
     @OneToOne(mappedBy = "billet")
     private Qrcode qrcode;
+
 
 }

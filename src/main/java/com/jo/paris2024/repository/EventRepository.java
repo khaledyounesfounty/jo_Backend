@@ -9,4 +9,7 @@ import java.util.Optional;
 
 public interface EventRepository extends JpaRepository<Event,Integer> {
     List<Event> findByTitre(String titre);
+    List<Event> findAllByOrderByCategorieAscTitreAsc();
+
+    List<Event> findByCategorie(String categorie);
 }

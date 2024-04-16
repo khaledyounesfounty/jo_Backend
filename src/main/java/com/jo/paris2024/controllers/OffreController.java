@@ -1,5 +1,6 @@
 package com.jo.paris2024.controllers;
 
+import com.jo.paris2024.DTO.OffreDto;
 import com.jo.paris2024.entities.Offre;
 import com.jo.paris2024.services.OffreService;
 import jakarta.validation.Valid;
@@ -18,7 +19,6 @@ public class OffreController {
 
     @GetMapping
     public ResponseEntity<?> getAllOffre() {
-
         return ResponseEntity.ok(offreService.getAllOffres());
     }
 
@@ -29,20 +29,20 @@ public class OffreController {
     }
 
     @PostMapping
-    public ResponseEntity<?> saveOffre(@Validated @RequestBody Offre offre, BindingResult bindingResult) {
+    public ResponseEntity<?> saveOffre(@Validated @RequestBody OffreDto offre, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         offreService.saveOffre(offre);
-        return ResponseEntity.ok("offre crée");
+        return ResponseEntity.ok("L'offre a été ajoutée avec succes");
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateOffre(@PathVariable Integer id, @RequestBody Offre offre) {
-
-        Offre updatedOffre = offreService.updateOffre(id, offre);
-
+    public ResponseEntity<?> updateOffre(@PathVariable Integer id, @Validated @RequestBody OffreDto offre,BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+        }
+        offreService.updateOffre(id, offre);
         return ResponseEntity.ok("L'offre a été mise à jour avec succes");
     }
 

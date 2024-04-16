@@ -1,16 +1,18 @@
 package com.jo.paris2024.services;
 
+import com.jo.paris2024.DTO.PanierDto;
 import com.jo.paris2024.entities.Panier;
+import com.jo.paris2024.entities.Reservation;
 
 import java.util.List;
 import java.util.Optional;
 
 public interface PanierService {
-    List<Panier> getAllPaniers();
-    Optional<Panier> getPanierById(Integer id);
+
     Panier createPanier(Panier panier);
-    Panier updatePanier(Integer id, Panier updatedPanier);
-    void deletePanierById(Integer id);
 
+    void deleteReservationFromPanier(Integer idReservation);
+    void addReservationToPanier(Reservation reservation, Panier panier);
 
+    PanierDto getPanierDetails();
 }

@@ -1,12 +1,15 @@
 package com.jo.paris2024.services.impl;
 
 import com.jo.paris2024.DTO.UserDTO;
+import com.jo.paris2024.entities.Panier;
 import com.jo.paris2024.entities.Utilisateur;
 import com.jo.paris2024.entities.Utilisateurprincipal;
+import com.jo.paris2024.repository.PanierRepository;
 import com.jo.paris2024.repository.UtilisateurRepository;
 import com.jo.paris2024.repository.UtilisateurprincipalRepository;
 import com.jo.paris2024.services.UtilisateurprincipalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,37 +19,51 @@ import java.util.logging.Logger;
 
 @Service
 public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalService {
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
-    private UtilisateurprincipalRepository userRepository;
     Logger logger = Logger.getLogger("UtilisateurprincipalServiceimpl");
-    @Autowired
-    private UtilisateurRepository utilisateurRepository;
+    private final PasswordEncoder passwordEncoder;
+    private final UtilisateurprincipalRepository userRepository;
+    private final PanierRepository panierRepository;
+    private final UtilisateurRepository utilisateurRepository;
+
+    public UtilisateurprincipalServiceimpl(
+            PasswordEncoder passwordEncoder,
+            UtilisateurprincipalRepository userRepository,
+            PanierRepository panierRepository,
+            UtilisateurRepository utilisateurRepository) {
+        this.passwordEncoder = passwordEncoder;
+        this.userRepository = userRepository;
+        this.panierRepository = panierRepository;
+        this.utilisateurRepository = utilisateurRepository;
+    }
+
 
     @Override
     public void registerNewUser(Utilisateurprincipal registrationRequest) {
 
-        if (userRepository.findByEmail(registrationRequest.getEmail())!=null) {
+        if (userRepository.findByEmail(registrationRequest.getEmail()) != null) {
             throw new RuntimeException("L'utilisateur existe déjà");
         }
         String encodedPassword = passwordEncoder.encode(registrationRequest.getMotDePasse());
-        logger.info("L'utilisateur est enregistré + "+registrationRequest);
+        logger.info("L'utilisateur est enregistré + " + registrationRequest);
         registrationRequest.setMotDePasse(encodedPassword);
-        logger.info("L'utilisateur est enregistré + "+registrationRequest);
-        Utilisateurprincipal utilisateurprincipal =userRepository.save(registrationRequest);
+        logger.info("L'utilisateur est enregistré + " + registrationRequest);
+        Utilisateurprincipal utilisateurprincipal = userRepository.save(registrationRequest);
 
-        Utilisateur user =new Utilisateur();
+        Utilisateur user = new Utilisateur();
         user.setUtilisateurprincipal(utilisateurprincipal);
         user.setCleUtilisateur(generateUtilisateur());
         utilisateurRepository.save(user);
+        // creer un noveau pamier pour chaque utilisateur creer
+        Panier panier = new Panier();
+        panier.setUtilisateur(user);
+        panierRepository.save(panier);
+        logger.info("Le Panier a ete creer pour l'utilisateur + " + utilisateurprincipal.getNom() + " Id de Panier est : " + panier.getId());
 
     }
 
 
     public static String generateUtilisateur() {
-        int length =100;
+        int length = 100;
         String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
         Random random = new Random();
@@ -61,17 +78,17 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
     }
 
 
-
-
     @Override
     public Utilisateurprincipal getUserByUsername(String username) {
         return userRepository.findByEmail(username);
     }
+
     @Override
-    public Utilisateurprincipal getCurrentUser() {
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        return userRepository.findByEmail(username);
+    public Utilisateur getUtilisateurLogin() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        return userRepository.findByEmail(auth.getName()).getUtilisateur();
     }
+
     @Override
     public UserDTO registerUser(Utilisateurprincipal user) {
         registerNewUser(user);
@@ -80,7 +97,7 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
 
     @Override
     public Utilisateurprincipal getUserDetails(String userName) {
-        Utilisateurprincipal utilisateurprincipal =userRepository.findByEmail(userName);
+        Utilisateurprincipal utilisateurprincipal = userRepository.findByEmail(userName);
         return utilisateurprincipal;
 
 

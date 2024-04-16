@@ -19,7 +19,7 @@ import java.util.Set;
 public class Utilisateurprincipal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_utilisateur", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
 
     @Size(max = 50)
@@ -36,7 +36,7 @@ public class Utilisateurprincipal {
     @NotNull
     @Column(name = "prenom", nullable = false)
     private String prenom;
-    @JsonIgnore
+
     @Size(max = 255)
     @NotNull
     @Column(name = "mot_de_passe", nullable = false)
@@ -46,17 +46,7 @@ public class Utilisateurprincipal {
     @NotNull
     @Column(name = "role", nullable = false, length = 5)
     private String role = "USER";
-    @JsonIgnore
-    @OneToOne(mappedBy = "utilisateurprincipal")
-    private Administrateur administrateur;
 
-    @OneToMany(mappedBy = "idUtilisateur")
-    @ToString.Exclude
-    private Set<Billet> billets = new LinkedHashSet<>();
-
-    @OneToMany(mappedBy = "idUtilisateur")
-    @ToString.Exclude
-    private Set<Panier> paniers = new LinkedHashSet<>();
 
     @OneToOne(mappedBy = "utilisateurprincipal")
     private Utilisateur utilisateur;

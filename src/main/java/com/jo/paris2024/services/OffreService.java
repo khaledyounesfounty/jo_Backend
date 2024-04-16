@@ -1,5 +1,6 @@
 package com.jo.paris2024.services;
 
+import com.jo.paris2024.DTO.OffreDto;
 import com.jo.paris2024.entities.Offre;
 
 import java.util.List;
@@ -9,9 +10,9 @@ public interface OffreService {
      List<Offre> getAllOffres();
 
 
-     void saveOffre(Offre offre);
+     void saveOffre(OffreDto offre);
 
-     Offre updateOffre(Integer id, Offre offre);
+     Offre updateOffre(Integer id, OffreDto offre);
 
      abstract void deleteOffreById(Integer id);
 

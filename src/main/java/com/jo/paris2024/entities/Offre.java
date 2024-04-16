@@ -25,38 +25,19 @@ public class Offre {
 
     @NotNull(message = "Le champs description ne doit pas etre null")
     @NotEmpty(message="pas vide")
-    @NotBlank(message="pas  d espaces")
-    @Lob
+    @NotBlank(message="pasd espaces")
     @Column(name = "description", nullable = false)
     private String description;
+
     @Column(name ="titre",nullable = false)
     private String titre;
-    @NotNull
-    @Column(name = "prix", nullable = false)
-    private Float prix;
-
-    @Size(max = 100)
-    @Column(name = "type", length = 100)
-    private String type;
-
-    @Size(max = 100)
-    @Column(name = "categorie", length = 100)
-    private String categorie;
 
     @NotNull
-    @Column(name = "dateEvent", nullable = false)
-    private LocalDate dateEvent;
+    @Column(name = "remise", nullable = false)
+    private int remise;
 
-    @Column(name = "nbMaxPlace")
-    private Integer nbMaxPlace;
-
-    @Column(name = "nbActualPlace")
-    private Integer nbActualPlace;
-    @JsonIgnore
-    @OneToMany(mappedBy = "offre")
-    private Set<Billet> billets = new LinkedHashSet<>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "idOffre")
-    private Set<OffreDansPanier> offreDansPaniers = new LinkedHashSet<>();
+    @NotNull
+    @Column(name = "nb_place", nullable = false)
+    private int nbPlace;
 
 }

@@ -5,25 +5,39 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 @Getter
 @Setter
 @Entity
 @Table(name = "utilisateur")
 public class Utilisateur {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_utilisateur", nullable = false)
+    @Column(name = "id", nullable = false)
     private Integer id;
-@JsonIgnore
-    @MapsId
+
+
     @OneToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "idUtilisateur", nullable = false)
     private Utilisateurprincipal utilisateurprincipal;
 
-    @JsonIgnore
+
     @Size(max = 100)
     @Column(name = "cleUtilisateur", length = 100)
     private String cleUtilisateur;
+
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_panier")
+    private Panier panier;
+
+    @OneToMany(mappedBy = "idUtilisateur")
+    private Set<Billet> billets = new LinkedHashSet<>();
+
 
 }

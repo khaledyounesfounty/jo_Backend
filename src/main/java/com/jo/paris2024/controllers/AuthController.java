@@ -51,6 +51,7 @@ public class AuthController {
     public ResponseEntity<?> registerUser(@RequestBody Utilisateurprincipal userDTO) {
         return  ResponseEntity.ok(utilisateurprincipalService.registerUser(userDTO));
     }
+
     @GetMapping("/user/details")
     public ResponseEntity<?> getDetailUser(Authentication authentification){
         String userName =authentification.getName();
