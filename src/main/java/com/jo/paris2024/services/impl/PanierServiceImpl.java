@@ -6,6 +6,7 @@ import com.jo.paris2024.entities.Panier;
 import com.jo.paris2024.entities.Reservation;
 import com.jo.paris2024.entities.Utilisateur;
 import com.jo.paris2024.repository.PanierRepository;
+import com.jo.paris2024.services.BilletService;
 import com.jo.paris2024.services.PanierService;
 import com.jo.paris2024.services.ReservationService;
 import com.jo.paris2024.services.UtilisateurprincipalService;
@@ -18,14 +19,20 @@ import java.util.Optional;
 @Service
 public class PanierServiceImpl implements PanierService {
 
+    private final PanierRepository panierRepository;
+    private final ReservationService reservationService;
+    private final UtilisateurprincipalService utilisateurprincipalService;
+    private final PanierMapper panierMapper;
+    private final BilletService billetService;
     @Autowired
-    private PanierRepository panierRepository;
-    @Autowired
-    private ReservationService reservationService;
-    @Autowired
-    private UtilisateurprincipalService utilisateurprincipalService;
-    @Autowired
-    private PanierMapper panierMapper;
+
+    public PanierServiceImpl(PanierRepository panierRepository, ReservationService reservationService, UtilisateurprincipalService utilisateurprincipalService, PanierMapper panierMapper, BilletService billetService) {
+        this.panierRepository = panierRepository;
+        this.reservationService = reservationService;
+        this.utilisateurprincipalService = utilisateurprincipalService;
+        this.panierMapper = panierMapper;
+        this.billetService = billetService;
+    }
 
     @Override
     public Panier createPanier(Panier panier) {
@@ -52,6 +59,16 @@ public class PanierServiceImpl implements PanierService {
     public PanierDto getPanierDetails() {
         Panier panier = utilisateurprincipalService.getUtilisateurLogin().getPanier();
         return panierMapper.toPanierDto(panier);
+    }
+
+    @Override
+    public void validerPanier() {
+        Panier panier = utilisateurprincipalService.getUtilisateurLogin().getPanier();
+        for (Reservation reservation : panier.getReservations()) {
+            billetService.creerBillet(reservation);
+        }
+        panier.getReservations().clear();
+        panierRepository.save(panier);
     }
 
 

@@ -14,12 +14,14 @@ public class Qrcode {
     @Column(name = "id_qr", nullable = false)
     private Integer id;
 
-    @Lob
     @Column(name = "data")
     private String data;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "billetId")
+    @JoinColumn(name = "billet_id")
     private Billet billet;
+
+    @Column(name = "qr_image")
+    private String qrImage;
 
 }

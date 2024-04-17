@@ -19,16 +19,14 @@ public class ReservationServiceImpl implements ReservationService {
     private final OffreRepository offreRepository;
     private final EventRepository eventRepository;
     private final ReservationMapper reservationMapper;
-    private final PanierService panierService;
     private final UtilisateurprincipalService utilisateurprincipalService;
 
     @Autowired
-    public ReservationServiceImpl(ReservationRepository reservationRepository, UtilisateurprincipalRepository utilisateurprincipalRepository, OffreRepository offreRepository, EventRepository eventRepository, ReservationMapper reservationMapper, PanierService panierService, UtilisateurprincipalService utilisateurprincipalService) {
+    public ReservationServiceImpl(ReservationRepository reservationRepository, UtilisateurprincipalRepository utilisateurprincipalRepository, OffreRepository offreRepository, EventRepository eventRepository, ReservationMapper reservationMapper, UtilisateurprincipalService utilisateurprincipalService) {
         this.reservationRepository = reservationRepository;
         this.offreRepository = offreRepository;
         this.eventRepository = eventRepository;
         this.reservationMapper = reservationMapper;
-        this.panierService = panierService;
         this.utilisateurprincipalService = utilisateurprincipalService;
     }
 
@@ -46,7 +44,7 @@ public class ReservationServiceImpl implements ReservationService {
         double prixtotal = event.getPrixUnitaire()* offre.getNbPlace() *( 1 - ((double) offre.getRemise() / 100) )  ;
         reservation.setPrix(prixtotal);
         reservationRepository.save(reservation);
-        panierService.addReservationToPanier(reservation, utilisateur.getPanier());
+        reservation.getIdPanier().getReservations().add(reservation);
 
     }
 

@@ -8,7 +8,6 @@ import com.jo.paris2024.repository.PanierRepository;
 import com.jo.paris2024.repository.UtilisateurRepository;
 import com.jo.paris2024.repository.UtilisateurprincipalRepository;
 import com.jo.paris2024.services.UtilisateurprincipalService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,7 +50,7 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
 
         Utilisateur user = new Utilisateur();
         user.setUtilisateurprincipal(utilisateurprincipal);
-        user.setCleUtilisateur(generateUtilisateur());
+        user.setCleUtilisateur(generateCle());
         utilisateurRepository.save(user);
         // creer un noveau pamier pour chaque utilisateur creer
         Panier panier = new Panier();
@@ -62,7 +61,7 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
     }
 
 
-    public static String generateUtilisateur() {
+    public static String generateCle() {
         int length = 100;
         String CHARACTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -99,7 +98,5 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
     public Utilisateurprincipal getUserDetails(String userName) {
         Utilisateurprincipal utilisateurprincipal = userRepository.findByEmail(userName);
         return utilisateurprincipal;
-
-
     }
 }

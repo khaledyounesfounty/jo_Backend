@@ -15,4 +15,6 @@ public interface PanierService {
     void addReservationToPanier(Reservation reservation, Panier panier);
 
     PanierDto getPanierDetails();
+
+    void validerPanier();
 }

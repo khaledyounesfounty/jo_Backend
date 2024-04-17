@@ -36,5 +36,11 @@ public class PanierController {
         return ResponseEntity.ok("La rreservation a été supprimée du panier");
     }
 
+    @PostMapping("valider")
+    public ResponseEntity<?> validerPanier() {
+        panierService.validerPanier();
+        return ResponseEntity.ok("Le panier a été validé");
+    }
+
 
 }

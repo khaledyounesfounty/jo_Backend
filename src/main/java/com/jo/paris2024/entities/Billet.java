@@ -16,13 +16,9 @@ public class Billet {
     @Column(name = "idbillet", nullable = false)
     private Integer id;
 
-    @Size(max = 100)
-    @Column(name = "type", length = 100)
-    private String type;
-
     @NotNull
     @Column(name = "validite", nullable = false)
-    private Boolean validite = false;
+    private Boolean validite = true;
 
     @Size(max = 255)
     @Column(name = "cle_billet")
