@@ -1,14 +1,17 @@
 package com.jo.paris2024.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "billet")
 public class Billet {
     @Id
@@ -26,14 +29,16 @@ public class Billet {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_reservation")
+    @ToString.Exclude
     private Reservation reservation;
 
+    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "id_utilisateur")
+    @ToString.Exclude
     private Utilisateur idUtilisateur;
 
     @OneToOne(mappedBy = "billet")
     private Qrcode qrcode;
-
 
 }

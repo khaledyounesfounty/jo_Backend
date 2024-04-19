@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.logging.Logger;
 
 @Service
 public class OffreServiceImpl implements OffreService {
@@ -17,6 +18,7 @@ public class OffreServiceImpl implements OffreService {
     OffreRepository offreRepository;
     @Autowired
     private OffreMapper offreMapper;
+    Logger logger = Logger.getLogger(OffreServiceImpl.class.getName());
 
     @Override
     public List<Offre> getAllOffres() {
@@ -36,10 +38,14 @@ public class OffreServiceImpl implements OffreService {
 
     @Override
     public void saveOffre(OffreDto offre) {
+        logger.info("L'offre avant la conversion" + offre.getNbPlace());
         if (!offreRepository.findByTitre(offre.getTitre()).isEmpty()) {
+
             throw new IllegalArgumentException("offre existe deja avec le meme titre");
         }
-        offreRepository.save(offreMapper.toEntity(offre));
+        Offre newOffre = offreMapper.toEntity(offre);
+        logger.info("L'offre apres la conversion" + newOffre.getNbPlace());
+        offreRepository.save(newOffre);
 
     }
 

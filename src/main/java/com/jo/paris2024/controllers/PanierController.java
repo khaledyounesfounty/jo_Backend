@@ -24,11 +24,6 @@ public class PanierController {
         return ResponseEntity.ok(panier);
     }
 
-    @PostMapping
-    public ResponseEntity<Panier> createPanier(@RequestBody Panier panier) {
-        Panier createdPanier = panierService.createPanier(panier);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPanier);
-    }
 
     @DeleteMapping("/reservation/{id}")
     public ResponseEntity<?> deleteReservationFromPanier(@PathVariable("id") Integer id) {
@@ -42,5 +37,11 @@ public class PanierController {
         return ResponseEntity.ok("Le panier a été validé");
     }
 
+     // add reservation to panier
+    @PostMapping("/reservation/{id}")
+    public ResponseEntity<?> addReservationToPanier(@PathVariable("id") Integer id) {
+        panierService.addReservationToPanier(id);
+        return ResponseEntity.ok("La reservation a été ajoutée au panier");
+    }
 
 }

@@ -9,6 +9,8 @@ import com.jo.paris2024.services.QrcodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.logging.Logger;
+
 @Service
 public class BilletServiceImpl implements BilletService {
 
@@ -16,15 +18,19 @@ public class BilletServiceImpl implements BilletService {
     private QrcodeService qrcodeService;
     @Autowired
     private BilletRepository billetRepository;
+    Logger logger = Logger.getLogger(BilletServiceImpl.class.getName());
+
     @Override
     public Billet creerBillet(Reservation reservation) {
         Billet billet = new Billet();
         billet.setReservation(reservation);
         billet.setIdUtilisateur(reservation.getIdPanier().getUtilisateur());
         billet.setCleBillet(UtilisateurprincipalServiceimpl.generateCle());
-        Qrcode qrcode = qrcodeService.creerQrcode(billet.getCleBillet()+reservation.getIdPanier().getUtilisateur().getCleUtilisateur());
-        billet.setQrcode(qrcode);
-        billetRepository.save(billet);
+
+        logger.info("Billet created " + billet);
+        Billet newBillet= billetRepository.save(billet);
+        Qrcode qrcode = qrcodeService.creerQrcode(billet.getCleBillet() + reservation.getIdPanier().getUtilisateur().getCleUtilisateur());
+        newBillet.setQrcode(qrcode);
         return billet;
     }
 

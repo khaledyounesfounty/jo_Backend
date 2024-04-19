@@ -5,11 +5,15 @@ import com.jo.paris2024.Mapper.EventMapper;
 import com.jo.paris2024.entities.Event;
 import com.jo.paris2024.repository.EventRepository;
 import com.jo.paris2024.services.EventService;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -17,6 +21,7 @@ public class EventServiceImpl implements EventService {
     EventRepository eventRepository;
     @Autowired
     private EventMapper eventMapper;
+    Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
 
 
     @Override
@@ -38,7 +43,9 @@ public class EventServiceImpl implements EventService {
         if (!eventRepository.findByTitre(event.getTitre()).isEmpty()) {
             throw new IllegalArgumentException("offre existe deja avec le meme titre");
         }
-        eventRepository.save(eventMapper.toEntity(event));
+        Event newEvent = eventMapper.toEntity(event);
+        logger.info("event : " + newEvent);
+        eventRepository.save(newEvent);
 
     }
 

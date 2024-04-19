@@ -22,13 +22,13 @@ public class Utilisateur {
     private Integer id;
 
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "idUtilisateur", nullable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_utilisateur", nullable = false)
     private Utilisateurprincipal utilisateurprincipal;
 
 
     @Size(max = 100)
-    @Column(name = "cleUtilisateur", length = 100)
+    @Column(name = "cle_utilisateur", length = 100)
     private String cleUtilisateur;
 
 
@@ -36,6 +36,7 @@ public class Utilisateur {
     @JoinColumn(name = "id_panier")
     private Panier panier;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "idUtilisateur")
     private Set<Billet> billets = new LinkedHashSet<>();
 

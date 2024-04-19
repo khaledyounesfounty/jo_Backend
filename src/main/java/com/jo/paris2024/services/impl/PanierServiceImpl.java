@@ -49,6 +49,15 @@ public class PanierServiceImpl implements PanierService {
     }
 
     @Override
+    public void addReservationToPanier(Integer id) {
+        Reservation reservation = reservationService.getReservationById(id);
+        Panier panier = utilisateurprincipalService.getUtilisateurLogin().getPanier();
+        panier.getReservations().add(reservation);
+        panier.setSommmeTotal(panier.getSommmeTotal()+reservation.getPrix());
+        panierRepository.save(panier);
+    }
+
+
     public void addReservationToPanier(Reservation reservation, Panier panier) {
         panier.getReservations().add(reservation);
         panier.setSommmeTotal(panier.getSommmeTotal()+reservation.getPrix());
@@ -58,11 +67,15 @@ public class PanierServiceImpl implements PanierService {
     @Override
     public PanierDto getPanierDetails() {
         Panier panier = utilisateurprincipalService.getUtilisateurLogin().getPanier();
+        if (panier.getReservations().isEmpty()) {
+            throw  new IllegalArgumentException("Le panier est vide");
+        }
         return panierMapper.toPanierDto(panier);
     }
 
     @Override
     public void validerPanier() {
+
         Panier panier = utilisateurprincipalService.getUtilisateurLogin().getPanier();
         for (Reservation reservation : panier.getReservations()) {
             billetService.creerBillet(reservation);

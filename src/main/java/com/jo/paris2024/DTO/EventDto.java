@@ -14,6 +14,7 @@ public class EventDto {
     @NotEmpty(message = "Le champs titre ne doit pas etre vide")
     @NotBlank(message = "Le champs titre ne doit pas etre vide")
     private String titre;
+
     @NotNull(message = "Le champs titre ne doit pas etre null")
     private LocalDate dateEvent;
     private String lieu;

@@ -12,7 +12,7 @@ public interface PanierService {
     Panier createPanier(Panier panier);
 
     void deleteReservationFromPanier(Integer idReservation);
-    void addReservationToPanier(Reservation reservation, Panier panier);
+    void addReservationToPanier(Integer id );
 
     PanierDto getPanierDetails();
 

@@ -10,15 +10,14 @@ import com.jo.paris2024.repository.QrcodeRepository;
 import com.jo.paris2024.services.QrcodeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 
-import java.awt.image.BufferedImage;
 import java.io.File;
 import java.nio.file.FileSystems;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 @Service
 public class QrcodeServiceImpl implements QrcodeService {
@@ -28,6 +27,7 @@ public class QrcodeServiceImpl implements QrcodeService {
     @Value("${app.qrcode.storage-path}")
     private String qrCodeBasePath;
 
+    private static final Logger logger = Logger.getLogger(QrcodeServiceImpl.class.getName());
 
     @Override
     public Qrcode creerQrcode(String data) {
@@ -36,30 +36,30 @@ public class QrcodeServiceImpl implements QrcodeService {
         try {
             qrcode.setQrImage(generateQRCode(data));
         } catch (Exception e) {
-            throw new RuntimeException("Erreur lors de la génération du QRCode");
+            logger.severe("Erreur lors de la génération du QRCode: " + e.getMessage());
+            // Handle the error gracefully, e.g., log it or return a default value
         }
-        return qrcode;
+        return qrcodeRepository.save(qrcode);
     }
 
-    public static void generateQRCodeImage(String barcodeText, String filePath) throws Exception {
+    private void generateQRCodeImage(String barcodeText, String filePath) throws Exception {
         QRCodeWriter barcodeWriter = new QRCodeWriter();
         Map<EncodeHintType, Object> hints = new HashMap<>();
         hints.put(EncodeHintType.CHARACTER_SET, "UTF-8");
 
         BitMatrix bitMatrix = barcodeWriter.encode(barcodeText, BarcodeFormat.QR_CODE, 200, 200, hints);
 
-        Path path = Path.of(filePath);
+        Path path = FileSystems.getDefault().getPath(filePath);
         MatrixToImageWriter.writeToPath(bitMatrix, "PNG", path);
     }
 
-    public String generateQRCode(String barcodeText) throws Exception {
+    private String generateQRCode(String barcodeText) throws Exception {
         String fileName = "QRCode_" + System.currentTimeMillis() + ".png";
-        String filePath = qrCodeBasePath + fileName;
+        logger.info("QRCode file name: " + fileName);
+        String filePath = "classpath:/qrimages/" + fileName;
+        logger.info("QRCode file path: " + filePath);
 
-        File resource = new ClassPathResource(filePath).getFile();
-
-        generateQRCodeImage(barcodeText, resource.getAbsolutePath());
+        generateQRCodeImage(barcodeText, filePath);
         return fileName;
     }
-
 }

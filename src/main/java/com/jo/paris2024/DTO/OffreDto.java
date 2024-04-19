@@ -19,4 +19,10 @@ public class OffreDto {
     @NotBlank(message = "Le champs remise ne doit pas etre vide")
     private int remise;
 
+    @NotNull(message = "Le champs remise ne doit pas etre null")
+    @NotEmpty(message = "Le champs remise ne doit pas etre vide")
+    @NotBlank(message = "Le champs remise ne doit pas etre vide")
+    private int nbPlace;
+
+
 }

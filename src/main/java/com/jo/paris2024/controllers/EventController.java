@@ -40,20 +40,20 @@ public class EventController {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
         eventService.saveEvent(event);
-        return ResponseEntity.ok("L'offre a été ajoutée avec succes");
+        return ResponseEntity.ok("L'event a été ajoutée avec succes");
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateEvent(@Validated @PathVariable Integer id, @RequestBody EventDto event) {
         eventService.updateEvent(id, event);
-        return ResponseEntity.ok("L'offre a été mise à jour avec succes");
+        return ResponseEntity.ok("L'event a été mise à jour avec succes");
     }
 
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable Integer id) {
         eventService.deleteEventById(id);
-        return ResponseEntity.ok("L'offre a été supprimée avec succes");
+        return ResponseEntity.ok("L'event a été supprimée avec succes");
 
     }
     // Faire une recherche par categorie si il est nul on return tout les events

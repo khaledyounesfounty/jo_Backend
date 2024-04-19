@@ -1,5 +1,6 @@
 package com.jo.paris2024.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,6 +20,7 @@ public class Panier {
 
     private Double sommmeTotal;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "panier")
     private Utilisateur utilisateur;
 

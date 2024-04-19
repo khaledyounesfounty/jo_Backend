@@ -20,7 +20,10 @@ public class ReservationController {
     private ReservationService reservationService;
     @PostMapping
     public ResponseEntity<?> saveReservation(@Validated @RequestBody ReservationDto reservation, BindingResult bindingResult) {
-
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Les champs ne sont pas valides");
+        }
+        reservationService.saveReservation(reservation);
         return ResponseEntity.ok("La reservation a été ajoutée avec succes");
     }
 

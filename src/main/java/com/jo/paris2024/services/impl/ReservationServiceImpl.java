@@ -43,11 +43,10 @@ public class ReservationServiceImpl implements ReservationService {
 
         double prixtotal = event.getPrixUnitaire()* offre.getNbPlace() *( 1 - ((double) offre.getRemise() / 100) )  ;
         reservation.setPrix(prixtotal);
-        reservationRepository.save(reservation);
+        reservation.getIdPanier().setSommmeTotal(reservation.getIdPanier().getSommmeTotal() + prixtotal);
         reservation.getIdPanier().getReservations().add(reservation);
-
+        reservationRepository.save(reservation);
     }
-
 
 
     @Override
