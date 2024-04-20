@@ -29,9 +29,10 @@ public class BilletServiceImpl implements BilletService {
 
         logger.info("Billet created " + billet);
         Billet newBillet= billetRepository.save(billet);
-        Qrcode qrcode = qrcodeService.creerQrcode(billet.getCleBillet() + reservation.getIdPanier().getUtilisateur().getCleUtilisateur());
-        newBillet.setQrcode(qrcode);
-        return billet;
+        // here we create the qrcode : we use the key of the billet and the key of the utilisateur(this keys are generated randomly when the utilisateur is created and when the billet is created)
+        qrcodeService.createAndSaveQRCode(billet.getCleBillet() + reservation.getIdPanier().getUtilisateur().getCleUtilisateur(), newBillet);
+
+        return newBillet;
     }
 
     // send the billets to the utilisateur using his gmail
