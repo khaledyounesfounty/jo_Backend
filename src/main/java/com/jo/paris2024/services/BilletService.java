@@ -5,4 +5,5 @@ import com.jo.paris2024.entities.Reservation;
 
 public interface BilletService {
     Billet creerBillet(Reservation reservation);
+    void sendBilletEmail(Billet billet);
 }

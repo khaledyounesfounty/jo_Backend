@@ -23,7 +23,6 @@ public class Utilisateurprincipal {
     private Integer id;
 
     @Size(max = 50)
-    @NotNull
     @Column(name = "email", nullable = false, length = 50)
     private String email;
 
@@ -37,7 +36,6 @@ public class Utilisateurprincipal {
     @Column(name = "prenom", nullable = false)
     private String prenom;
 
-    @JsonIgnore
     @Size(max = 255)
     @NotNull
     @Column(name = "mot_de_passe", nullable = false)
@@ -48,7 +46,6 @@ public class Utilisateurprincipal {
     @Column(name = "role", nullable = false, length = 5)
     private String role = "USER";
 
-    @JsonIgnore
     @OneToOne(mappedBy = "utilisateurprincipal")
     private Utilisateur utilisateur;
 

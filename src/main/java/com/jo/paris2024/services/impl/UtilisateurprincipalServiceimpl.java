@@ -51,13 +51,13 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
         Utilisateur user = new Utilisateur();
         user.setUtilisateurprincipal(utilisateurprincipal);
         user.setCleUtilisateur(generateCle());
-        // creer un noveau pamier pour chaque utilisateur creer
+        Utilisateur newUser = utilisateurRepository.save(user);
         Panier panier = new Panier();
         panier.setUtilisateur(user);
         Panier p = panierRepository.save(panier);
         p.setSommmeTotal(0.0);
-        user.setPanier(p);
-        utilisateurRepository.save(user);
+        panierRepository.save(p);
+        newUser.setPanier(p);
         logger.info("Le Panier a ete creer pour l'utilisateur + " + utilisateurprincipal.getNom() + " Id de Panier est : " + panier.getId());
 
     }

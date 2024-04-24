@@ -36,7 +36,7 @@ public class SecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/v1/login", "/api/v1/register","/api/v1/offre/**").permitAll()
+                                .requestMatchers("/api/v1/login", "/api/v1/register","/api/v1/offre/**","/api/v1/events/**").permitAll()
                                 .requestMatchers("/api-docs", "/api-docs/**", "/v3/api-docs/**", "/swagger-ui-custom.html","/swagger-ui/**", "/swagger-ui.html").permitAll()
                                 .anyRequest().authenticated()
                 )
@@ -44,6 +44,11 @@ public class SecurityConfig {
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
+                // set login controller to . logout
+                .logout( logout -> logout
+                        .logoutUrl("/api/v1/logout")
+                        .logoutSuccessUrl("/api/v1/login")
+                )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

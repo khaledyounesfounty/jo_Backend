@@ -36,7 +36,7 @@ public class Utilisateur {
     @JoinColumn(name = "id_panier")
     private Panier panier;
 
-    @JsonIgnore
+
     @OneToMany(mappedBy = "idUtilisateur")
     private Set<Billet> billets = new LinkedHashSet<>();
 
