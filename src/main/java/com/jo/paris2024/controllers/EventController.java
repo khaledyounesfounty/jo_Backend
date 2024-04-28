@@ -2,6 +2,7 @@ package com.jo.paris2024.controllers;
 
 import com.jo.paris2024.DTO.EventDto;
 import com.jo.paris2024.Mapper.EventMapper;
+import com.jo.paris2024.Mapper.OffreMapper;
 import com.jo.paris2024.entities.Event;
 import com.jo.paris2024.entities.Offre;
 import com.jo.paris2024.services.EventService;
@@ -22,6 +23,8 @@ public class EventController {
     private EventService eventService;
     @Autowired
     private EventMapper eventMapper;
+    @Autowired
+    private OffreMapper offreMapper;
 
     @GetMapping
     public ResponseEntity<?> getAllEvent() {
@@ -60,5 +63,10 @@ public class EventController {
     @GetMapping("/search/category/{categorie}")
     public ResponseEntity<?> getEventByCategorie(@PathVariable String categorie) {
         return ResponseEntity.ok(eventService.getEventByCategorie(categorie).stream().map(eventMapper::toDto).collect(Collectors.toList()));
+    }
+    // get offres for a given event
+    @GetMapping("/{id}/offres")
+    public ResponseEntity<?> getOffresByEvent(@PathVariable Integer id) {
+        return ResponseEntity.ok(eventService.getEventById(id).getOffres().stream().map(offreMapper::toDto).collect(Collectors.toList()));
     }
 }

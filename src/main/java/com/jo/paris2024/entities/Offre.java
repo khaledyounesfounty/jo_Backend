@@ -11,6 +11,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -39,5 +40,9 @@ public class Offre {
     @NotNull
     @Column(name = "nb_place", nullable = false)
     private int nbPlace;
+
+    @JsonIgnore
+    @ManyToMany(mappedBy = "offres")
+    private List<Event> events ;
 
 }

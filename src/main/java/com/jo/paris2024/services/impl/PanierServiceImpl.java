@@ -79,7 +79,6 @@ public class PanierServiceImpl implements PanierService {
         Panier panier = utilisateurprincipalService.getUtilisateurLogin().getPanier();
         for (Reservation reservation : panier.getReservations()) {
             billetService.creerBillet(reservation);
-
         }
         panier.getReservations().clear();
         panierRepository.save(panier);

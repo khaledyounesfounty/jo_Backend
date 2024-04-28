@@ -8,6 +8,7 @@ import com.jo.paris2024.repository.PanierRepository;
 import com.jo.paris2024.repository.UtilisateurRepository;
 import com.jo.paris2024.repository.UtilisateurprincipalRepository;
 import com.jo.paris2024.services.UtilisateurprincipalService;
+import jakarta.transaction.Transactional;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -35,33 +36,38 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
         this.utilisateurRepository = utilisateurRepository;
     }
 
-
-    @Override
+    @Transactional
     public void registerNewUser(Utilisateurprincipal registrationRequest) {
-
+        // Check if user already exists
         if (userRepository.findByEmail(registrationRequest.getEmail()) != null) {
-            throw new RuntimeException("L'utilisateur existe déjà");
+            throw new IllegalStateException("L'utilisateur existe déjà");
         }
-        String encodedPassword = passwordEncoder.encode(registrationRequest.getMotDePasse());
-        logger.info("L'utilisateur est enregistré + " + registrationRequest);
-        registrationRequest.setMotDePasse(encodedPassword);
-        logger.info("L'utilisateur est enregistré + " + registrationRequest);
-        Utilisateurprincipal utilisateurprincipal = userRepository.save(registrationRequest);
 
+        // Encode password
+        String encodedPassword = passwordEncoder.encode(registrationRequest.getMotDePasse());
+        registrationRequest.setMotDePasse(encodedPassword);
+
+        // Save the main user entity
+        Utilisateurprincipal utilisateurPrincipal = userRepository.save(registrationRequest);
+
+        // Create and save Utilisateur entity
         Utilisateur user = new Utilisateur();
-        user.setUtilisateurprincipal(utilisateurprincipal);
+        user.setUtilisateurprincipal(utilisateurPrincipal);
         user.setCleUtilisateur(generateCle());
         Utilisateur newUser = utilisateurRepository.save(user);
+
+        // Create and save Panier entity
         Panier panier = new Panier();
-        panier.setUtilisateur(user);
-        Panier p = panierRepository.save(panier);
-        p.setSommmeTotal(0.0);
-        panierRepository.save(p);
-        newUser.setPanier(p);
-        logger.info("Le Panier a ete creer pour l'utilisateur + " + utilisateurprincipal.getNom() + " Id de Panier est : " + panier.getId());
+        panier.setUtilisateur(newUser);
+        panier.setSommmeTotal(0.0); // Initialize sum total
+        Panier savedPanier = panierRepository.save(panier);
 
+        // Set the Panier to the newUser and save
+        newUser.setPanier(savedPanier);
+        utilisateurRepository.save(newUser);
+
+        logger.info("Le Panier a été créé pour l'utilisateur avec nom: " + utilisateurPrincipal.getNom() + " et ID de Panier: " + newUser.getPanier().getId());
     }
-
 
     public static String generateCle() {
         int length = 100;
@@ -87,7 +93,10 @@ public class UtilisateurprincipalServiceimpl implements UtilisateurprincipalServ
     @Override
     public Utilisateur getUtilisateurLogin() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        return userRepository.findByEmail(auth.getName()).getUtilisateur();
+        logger.info("L'utilisateur connecté est: " + auth.getName());
+        Utilisateur utilisateur = userRepository.findByEmail(auth.getName()).getUtilisateur();
+        logger.info("L'utilisateur connecté est: " + utilisateur.getUtilisateurprincipal().getNom());
+        return utilisateur;
     }
 
     @Override

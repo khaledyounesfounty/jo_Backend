@@ -38,13 +38,12 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/api/v1/login", "/api/v1/register","/api/v1/offre/**","/api/v1/events/**").permitAll()
                                 .requestMatchers("/api-docs", "/api-docs/**", "/v3/api-docs/**", "/swagger-ui-custom.html","/swagger-ui/**", "/swagger-ui.html").permitAll()
-                                .anyRequest().authenticated()
+                        .anyRequest().authenticated()
                 )
                 .sessionManagement(session -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .authenticationProvider(authenticationProvider())
-                // set login controller to . logout
                 .logout( logout -> logout
                         .logoutUrl("/api/v1/logout")
                         .logoutSuccessUrl("/api/v1/login")

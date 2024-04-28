@@ -3,6 +3,7 @@ package com.jo.paris2024.services.impl;
 import com.jo.paris2024.DTO.EventDto;
 import com.jo.paris2024.Mapper.EventMapper;
 import com.jo.paris2024.entities.Event;
+import com.jo.paris2024.entities.Offre;
 import com.jo.paris2024.repository.EventRepository;
 import com.jo.paris2024.services.EventService;
 
@@ -79,6 +80,7 @@ public class EventServiceImpl implements EventService {
         }
         return eventRepository.findByCategorie(categorie);
     }
+
 }
 
 

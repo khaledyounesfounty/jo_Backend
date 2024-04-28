@@ -10,7 +10,7 @@ import java.util.List;
 
 @Service
 public interface EventService {
-   List<Event> getAllEvent();
+    List<Event> getAllEvent();
 
     Event getEventById(Integer id);
 
@@ -21,4 +21,5 @@ public interface EventService {
     void deleteEventById(Integer id);
 
     List<Event> getEventByCategorie(String categorie);
+
 }

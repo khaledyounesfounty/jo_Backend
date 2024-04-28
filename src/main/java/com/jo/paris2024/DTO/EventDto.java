@@ -26,6 +26,6 @@ public class EventDto {
     @NotNull(message = "Le champs isDisponible ne doit pas etre null")
     private Boolean isDisponible;
     private double prixUnitaire ;
-    private String image;
     private String categorie;
+
 }

@@ -1,12 +1,12 @@
 package com.jo.paris2024.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @Entity
@@ -32,7 +32,10 @@ public class Event {
     private String image;
     private String categorie;
 
+    @ManyToMany
+    private List<Offre> offres;
+
     @OneToMany
-    private Set<Billet> billets = new LinkedHashSet<>();
+    private List<Billet> billets;
 
 }

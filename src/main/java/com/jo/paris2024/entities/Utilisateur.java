@@ -7,7 +7,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -38,7 +40,7 @@ public class Utilisateur {
 
 
     @OneToMany(mappedBy = "idUtilisateur")
-    private Set<Billet> billets = new LinkedHashSet<>();
+    private List<Billet> billets = new ArrayList<>();
 
 
 }

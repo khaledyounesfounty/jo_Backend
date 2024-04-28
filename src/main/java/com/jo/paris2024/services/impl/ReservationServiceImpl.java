@@ -34,14 +34,17 @@ public class ReservationServiceImpl implements ReservationService {
     public void saveReservation(ReservationDto reservationDto) {
 
         Reservation reservation = reservationMapper.toEntity(reservationDto);
+        if (reservationDto.getIdEventId() == null || reservationDto.getIdOffreId() == null) {
+            throw new IllegalArgumentException("L'event ou l'offre n'existe pas");
+        }
         Utilisateur utilisateur = utilisateurprincipalService.getUtilisateurLogin();
         reservation.setIdPanier(utilisateur.getPanier());
-        Offre offre = offreRepository.findById(reservationDto.getIdOffreId()).orElseThrow(() -> new IllegalArgumentException("Offre not found"));
+        Offre offre = offreRepository.findById(reservationDto.getIdOffreId()).orElseThrow(() -> new IllegalArgumentException("L'offre n'existe pas"));
         reservation.setIdOffre(offre);
-        Event event = eventRepository.findById(reservationDto.getIdEventId().intValue()).orElseThrow(() -> new IllegalArgumentException("Event not found"));
+        Event event = eventRepository.findById(reservationDto.getIdEventId().intValue()).orElseThrow(() -> new IllegalArgumentException("L'event n'existe pas"));
         reservation.setIdEvent(event);
 
-        double prixtotal = event.getPrixUnitaire()* offre.getNbPlace() *( 1 - ((double) offre.getRemise() / 100) )  ;
+        double prixtotal = event.getPrixUnitaire()* offre.getNbPlace() *( 1 - ((double) offre.getRemise() / 100) );
         reservation.setPrix(prixtotal);
         reservation.getIdPanier().setSommmeTotal(reservation.getIdPanier().getSommmeTotal() + prixtotal);
         reservation.getIdPanier().getReservations().add(reservation);
