@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -33,9 +34,12 @@ public class Event {
     private String categorie;
 
     @ManyToMany
-    private List<Offre> offres;
+    @JoinTable(name = "event_offre",
+            joinColumns = @JoinColumn(name = "event_id"),
+            inverseJoinColumns = @JoinColumn(name = "offre_id"))
+    private List<Offre> offres= new ArrayList<>();
 
     @OneToMany
-    private List<Billet> billets;
+    private List<Billet> billets= new ArrayList<>();
 
 }

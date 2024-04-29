@@ -79,13 +79,14 @@ public class OffreServiceImpl implements OffreService {
     @Override
     public void deleteOffreById(Integer id) {
         Optional<Offre> optionalOffre = offreRepository.findById(id);
-
         if (optionalOffre.isPresent()) {
-            offreRepository.deleteById(id);
-
+            try {
+                offreRepository.deleteById(id);
+            } catch (Exception e) {
+                throw new RuntimeException("L'offre ne peut pas etre supprimée:Il y a des reservations associées à cette offre");
+            }
         } else
             throw new RuntimeException("L'offre ne peut pas etre supprimée:L'offre n'existe pas");
-        offreRepository.deleteById(id);
     }
 
 }

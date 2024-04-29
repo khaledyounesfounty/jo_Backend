@@ -14,7 +14,7 @@ public interface OffreService {
 
      Offre updateOffre(Integer id, OffreDto offre);
 
-     abstract void deleteOffreById(Integer id);
+      void deleteOffreById(Integer id);
 
      Offre getOffreById(Integer id);
 

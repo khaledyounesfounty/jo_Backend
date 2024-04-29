@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
@@ -43,6 +44,6 @@ public class Offre {
 
     @JsonIgnore
     @ManyToMany(mappedBy = "offres")
-    private List<Event> events ;
+    private List<Event> events =new ArrayList<>();
 
 }

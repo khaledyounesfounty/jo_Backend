@@ -5,6 +5,7 @@ import com.jo.paris2024.Mapper.EventMapper;
 import com.jo.paris2024.entities.Event;
 import com.jo.paris2024.entities.Offre;
 import com.jo.paris2024.repository.EventRepository;
+import com.jo.paris2024.repository.OffreRepository;
 import com.jo.paris2024.services.EventService;
 
 import org.slf4j.Logger;
@@ -12,6 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,6 +24,8 @@ public class EventServiceImpl implements EventService {
     EventRepository eventRepository;
     @Autowired
     private EventMapper eventMapper;
+    @Autowired
+    private OffreRepository offreRepository;
     Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
 
 
@@ -46,8 +50,13 @@ public class EventServiceImpl implements EventService {
         }
         Event newEvent = eventMapper.toEntity(event);
         logger.info("event : " + newEvent);
+        Arrays.stream(event.getOffres()).forEach(offreid -> {
+            Offre offre = offreRepository.findById(offreid).orElseThrow(() -> new IllegalArgumentException("Pas d'offre disponible sur cet id"));
+            offre.getEvents().add(newEvent);
+            newEvent.getOffres().add(offre);
+            offreRepository.save(offre);
+        });
         eventRepository.save(newEvent);
-
     }
 
     @Override
