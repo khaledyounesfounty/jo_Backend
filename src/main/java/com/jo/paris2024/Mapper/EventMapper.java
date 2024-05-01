@@ -7,7 +7,7 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface EventMapper {
-    @Mapping(target = "offreIds", ignore = true)
+    @Mapping(target = "offresIds", ignore = true)
      EventDto toDto(Event event);
 
 

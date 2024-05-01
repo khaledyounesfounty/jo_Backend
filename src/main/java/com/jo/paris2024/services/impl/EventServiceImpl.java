@@ -48,9 +48,10 @@ public class EventServiceImpl implements EventService {
         if (!eventRepository.findByTitre(event.getTitre()).isEmpty()) {
             throw new IllegalArgumentException("offre existe deja avec le meme titre");
         }
+        //
         Event newEvent = eventMapper.toEntity(event);
         logger.info("event : " + newEvent);
-        Arrays.stream(event.getOffreIds()).forEach(offreid -> {
+        Arrays.stream(event.getOffresIds()).forEach(offreid -> {
             Offre offre = offreRepository.findById(offreid).orElseThrow(() -> new IllegalArgumentException("Pas d'offre disponible sur cet id"));
             offre.getEvents().add(newEvent);
             newEvent.getOffres().add(offre);

@@ -7,6 +7,8 @@ import com.jo.paris2024.entities.Event;
 import com.jo.paris2024.entities.Offre;
 import com.jo.paris2024.services.EventService;
 import com.jo.paris2024.services.OffreService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -25,6 +27,7 @@ public class EventController {
     private EventMapper eventMapper;
     @Autowired
     private OffreMapper offreMapper;
+    Logger logger = LoggerFactory.getLogger(EventController.class);
 
     @GetMapping
     public ResponseEntity<?> getAllEvent() {
@@ -39,6 +42,7 @@ public class EventController {
 
     @PostMapping
     public ResponseEntity<?> saveOffre(@Validated @RequestBody EventDto event, BindingResult bindingResult) {
+        logger.info("event : " + event);
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
