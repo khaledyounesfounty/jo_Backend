@@ -1,6 +1,5 @@
 package com.jo.paris2024.security;
 
-import com.jo.paris2024.entities.Utilisateurprincipal;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

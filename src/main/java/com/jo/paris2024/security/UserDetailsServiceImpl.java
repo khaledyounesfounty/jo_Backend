@@ -1,7 +1,5 @@
 package com.jo.paris2024.security;
 
-import com.jo.paris2024.entities.Utilisateurprincipal;
-import com.jo.paris2024.repository.UtilisateurprincipalRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

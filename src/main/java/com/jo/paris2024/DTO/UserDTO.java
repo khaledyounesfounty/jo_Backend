@@ -1,5 +1,4 @@
 package com.jo.paris2024.DTO;
-import com.jo.paris2024.entities.Utilisateurprincipal;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
