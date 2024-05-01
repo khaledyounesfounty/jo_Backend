@@ -21,7 +21,8 @@ public class Qrcode {
     @JoinColumn(name = "billet_id")
     private Billet billet;
 
-    @Column(name = "qr_image")
+    @Lob
+    @Column(name = "qr_image", columnDefinition = "LONGTEXT")
     private String qrImage;
 
 }
