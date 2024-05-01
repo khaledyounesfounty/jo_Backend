@@ -50,7 +50,7 @@ public class EventServiceImpl implements EventService {
         }
         Event newEvent = eventMapper.toEntity(event);
         logger.info("event : " + newEvent);
-        Arrays.stream(event.getOffres()).forEach(offreid -> {
+        Arrays.stream(event.getOffreIds()).forEach(offreid -> {
             Offre offre = offreRepository.findById(offreid).orElseThrow(() -> new IllegalArgumentException("Pas d'offre disponible sur cet id"));
             offre.getEvents().add(newEvent);
             newEvent.getOffres().add(offre);

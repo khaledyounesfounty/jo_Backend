@@ -28,6 +28,6 @@
         private double prixUnitaire ;
         private String categorie;
 
-        private int[] offres;
+        private int[] offreIds;
 
     }
