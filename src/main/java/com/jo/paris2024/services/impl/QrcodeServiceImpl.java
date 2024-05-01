@@ -44,7 +44,7 @@ public class QrcodeServiceImpl implements QrcodeService {
             String qrCodeFileName = System.currentTimeMillis() + ".svg";
             String qrCodeFilePath = qrCodeDirectory + qrCodeFileName;
 
-            String svgContent = generateQRCodeSVG(data, 250, 250);
+            String svgContent = generateQRCodeSVG(data, 100, 100);
             Files.write(Paths.get(qrCodeFilePath), svgContent.getBytes(StandardCharsets.UTF_8));
 
             Qrcode qrCode = new Qrcode();
