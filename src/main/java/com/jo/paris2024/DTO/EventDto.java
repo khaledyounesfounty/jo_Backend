@@ -33,4 +33,6 @@
 
         private int [] offresIds ;
 
+        private List<OffreDto> offres = new ArrayList<>();
+
     }
