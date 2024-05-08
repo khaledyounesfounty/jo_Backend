@@ -20,14 +20,17 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/events")
 public class EventController {
+    private final EventService eventService;
+    private final EventMapper eventMapper;
+    private final OffreMapper offreMapper;
+    Logger logger = LoggerFactory.getLogger(EventController.class);
 
     @Autowired
-    private EventService eventService;
-    @Autowired
-    private EventMapper eventMapper;
-    @Autowired
-    private OffreMapper offreMapper;
-    Logger logger = LoggerFactory.getLogger(EventController.class);
+    public EventController(EventService eventService, EventMapper eventMapper, OffreMapper offreMapper) {
+        this.eventService = eventService;
+        this.eventMapper = eventMapper;
+        this.offreMapper = offreMapper;
+    }
 
     @GetMapping
     public ResponseEntity<?> getAllEvent() {
@@ -56,21 +59,23 @@ public class EventController {
         return ResponseEntity.ok("L'event a été mise à jour avec succes");
     }
 
-
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteEvent(@PathVariable Integer id) {
         eventService.deleteEventById(id);
         return ResponseEntity.ok("L'event a été supprimée avec succes");
 
     }
+
     // Faire une recherche par categorie si il est nul on return tout les events
     @GetMapping("/search/category/{categorie}")
     public ResponseEntity<?> getEventByCategorie(@PathVariable String categorie) {
         return ResponseEntity.ok(eventService.getEventByCategorie(categorie).stream().map(eventMapper::toDto).collect(Collectors.toList()));
     }
+
     // get offres for a given event
     @GetMapping("/{id}/offres")
     public ResponseEntity<?> getOffresByEvent(@PathVariable Integer id) {
         return ResponseEntity.ok(eventService.getEventById(id).getOffres().stream().map(offreMapper::toDto).collect(Collectors.toList()));
     }
+
 }

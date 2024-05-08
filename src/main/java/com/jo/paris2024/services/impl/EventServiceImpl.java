@@ -20,14 +20,17 @@ import java.util.Optional;
 
 @Service
 public class EventServiceImpl implements EventService {
-    @Autowired
-    EventRepository eventRepository;
-    @Autowired
-    private EventMapper eventMapper;
-    @Autowired
-    private OffreRepository offreRepository;
+
+    private final EventRepository eventRepository;
+    private final EventMapper eventMapper;
+    private final OffreRepository offreRepository;
     Logger logger = LoggerFactory.getLogger(EventServiceImpl.class);
 
+    public EventServiceImpl(EventRepository eventRepository, EventMapper eventMapper, OffreRepository offreRepository) {
+        this.eventRepository = eventRepository;
+        this.eventMapper = eventMapper;
+        this.offreRepository = offreRepository;
+    }
 
     @Override
     public List<Event> getAllEvent() {
@@ -80,7 +83,6 @@ public class EventServiceImpl implements EventService {
         } else {
             throw new IllegalArgumentException("Pas d'event disponible sur cet id");
         }
-
     }
 
     @Override

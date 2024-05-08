@@ -16,8 +16,6 @@ public class UserDTO {
     private String role;
     private String prenom ;
 
-
-
     public UserDTO(Utilisateurprincipal actualUser) {
         this.id = actualUser.getId();
         this.username = actualUser.getEmail();

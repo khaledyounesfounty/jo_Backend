@@ -8,7 +8,6 @@ import lombok.*;
 @Builder
 
 public class AuthRequestDTO {
-
     private String username;
     private String password;
 }

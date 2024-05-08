@@ -14,11 +14,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/billets")
 public class BilletController {
-    @Autowired
-    private BilletService billetService;
+
+    private final BilletService billetService;
     private final BilletMapper billetMapper;
 
-    public BilletController(BilletMapper billetMapper) {
+    @Autowired
+    public BilletController(BilletService billetService, BilletMapper billetMapper) {
+        this.billetService = billetService;
         this.billetMapper = billetMapper;
     }
 
@@ -26,6 +28,5 @@ public class BilletController {
     public ResponseEntity<?> getBillets() {
         return ResponseEntity.ok(billetService.getAllBillets().stream().map(billetMapper::toBilletDto).collect(Collectors.toList()));
     }
-
 
 }

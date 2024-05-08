@@ -7,6 +7,7 @@ import com.jo.paris2024.entities.Utilisateurprincipal;
 import com.jo.paris2024.security.JwtService;
 import com.jo.paris2024.services.UtilisateurprincipalService;
 import com.jo.paris2024.DTO.AuthRequestDTO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -22,7 +23,7 @@ public class AuthController {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
     private final UtilisateurprincipalService utilisateurprincipalService;
-
+    @Autowired
     public AuthController(JwtService jwtService, AuthenticationManager authenticationManager, UtilisateurprincipalService utilisateurprincipalService) {
         this.jwtService = jwtService;
         this.authenticationManager = authenticationManager;

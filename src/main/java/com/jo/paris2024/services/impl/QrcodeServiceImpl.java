@@ -30,8 +30,8 @@ public class QrcodeServiceImpl implements QrcodeService {
     @Autowired
     private QrcodeRepository qrcodeRepository;
 
-    @Value("${qr.code.directory}")
-    private String qrCodeDirectory;
+    /*@Value("${qr.code.directory}")
+    private String qrCodeDirectory;*/
 
     private static final Logger logger = Logger.getLogger(QrcodeServiceImpl.class.getName());
 
@@ -41,17 +41,16 @@ public class QrcodeServiceImpl implements QrcodeService {
     public Qrcode createAndSaveQRCode(String data, Billet idBillet) {
         try
         {
-            String qrCodeFileName = System.currentTimeMillis() + ".svg";
+            /*String qrCodeFileName = System.currentTimeMillis() + ".svg";
             String qrCodeFilePath = qrCodeDirectory + qrCodeFileName;
-
+            */
             String svgContent = generateQRCodeSVG(data, 100, 100);
-            Files.write(Paths.get(qrCodeFilePath), svgContent.getBytes(StandardCharsets.UTF_8));
+            //Files.write(Paths.get(qrCodeFilePath), svgContent.getBytes(StandardCharsets.UTF_8));
 
             Qrcode qrCode = new Qrcode();
             qrCode.setData(data);
             qrCode.setQrImage(svgContent);
             qrCode.setBillet(idBillet);
-            Logger.getLogger(QrcodeServiceImpl.class.getName()).info("QRCode created: " + qrCodeFilePath);
 
             return qrcodeRepository.save(qrCode);
         }catch (Exception e)

@@ -14,7 +14,6 @@ public class CustomUserDetails implements UserDetails {
     private String username;
     private String password;
     Collection<? extends GrantedAuthority> authorities;
-
     public CustomUserDetails(Utilisateurprincipal utilisateurprincipal) {
         this.username = utilisateurprincipal.getEmail();
         this.password = utilisateurprincipal.getMotDePasse();

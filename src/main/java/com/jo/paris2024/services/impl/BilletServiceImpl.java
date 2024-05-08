@@ -8,7 +8,6 @@ import com.jo.paris2024.entities.Utilisateur;
 import com.jo.paris2024.repository.BilletRepository;
 import com.jo.paris2024.repository.ReservationRepository;
 import com.jo.paris2024.services.BilletService;
-import com.jo.paris2024.services.EmailService;
 import com.jo.paris2024.services.QrcodeService;
 import com.jo.paris2024.services.UtilisateurprincipalService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,19 +19,20 @@ import java.util.logging.Logger;
 @Service
 public class BilletServiceImpl implements BilletService {
 
-    @Autowired
-    private QrcodeService qrcodeService;
-    @Autowired
-    private UtilisateurprincipalService utilisateurprincipalService;
-    @Autowired
-    private BilletRepository billetRepository;
-    @Autowired
-    private ReservationRepository reservationRepository;
-    @Autowired
-    EmailService emailService;
+    private final QrcodeService qrcodeService;
+    private final UtilisateurprincipalService utilisateurprincipalService;
+    private final BilletRepository billetRepository;
+    private final ReservationRepository reservationRepository;
     Logger logger = Logger.getLogger(BilletServiceImpl.class.getName());
+    private final BilletMapper billetMapper;
     @Autowired
-    private BilletMapper billetMapper;
+    public BilletServiceImpl( QrcodeService qrcodeService, UtilisateurprincipalService utilisateurprincipalService, BilletRepository billetRepository, ReservationRepository reservationRepository, BilletMapper billetMapper) {
+        this.qrcodeService = qrcodeService;
+        this.utilisateurprincipalService = utilisateurprincipalService;
+        this.billetRepository = billetRepository;
+        this.reservationRepository = reservationRepository;
+        this.billetMapper = billetMapper;
+    }
 
     @Override
     public Billet creerBillet(Reservation reservation) {
@@ -50,11 +50,6 @@ public class BilletServiceImpl implements BilletService {
         reservationRepository.save(reservation);
         //sendBilletEmail(newBillet);
         return newBillet;
-    }
-
-    @Override
-    public void sendBilletEmail(Billet billet) {
-        emailService.sendBilletConfirmationEmail(billetMapper.toBilletDto(billet), billet.getIdUtilisateur().getUtilisateurprincipal().getEmail());
     }
 
     @Override

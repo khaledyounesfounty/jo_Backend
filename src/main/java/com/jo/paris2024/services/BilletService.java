@@ -7,7 +7,6 @@ import java.util.List;
 
 public interface BilletService {
     Billet creerBillet(Reservation reservation);
-    void sendBilletEmail(Billet billet);
 
     List<Billet> getAllBillets();
 }
