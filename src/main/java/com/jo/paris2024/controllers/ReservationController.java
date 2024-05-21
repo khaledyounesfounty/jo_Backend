@@ -25,5 +25,4 @@ public class ReservationController {
         reservationService.saveReservation(reservation);
         return ResponseEntity.ok("La reservation a été ajoutée avec succes");
     }
-
 }

@@ -82,6 +82,4 @@ public class PanierServiceImpl implements PanierService {
         panier.getReservations().clear();
         panierRepository.save(panier);
     }
-
-
 }

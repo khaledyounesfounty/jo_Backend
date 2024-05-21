@@ -5,6 +5,7 @@ import com.jo.paris2024.DTO.OffreDto;
 import com.jo.paris2024.entities.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
+import lombok.NoArgsConstructor;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -13,10 +14,12 @@ import java.io.Serializable;
  * DTO for {@link Billet}
  */
 @Value
+@NoArgsConstructor(force = true)
 public class BilletDto implements Serializable {
     ReservationDto reservation;
     UtilisateurDto idUtilisateur;
     QrcodeDto qrcode;
+
 
     /**
      * DTO for {@link Reservation}
