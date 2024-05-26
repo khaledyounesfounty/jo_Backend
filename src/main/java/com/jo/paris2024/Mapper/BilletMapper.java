@@ -7,6 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface BilletMapper {
     BilletDto toBilletDto(Billet billet);
-
-    Billet toBillet(BilletDto billetDto);
+    Billet toEntity(BilletDto billetDto);
 }

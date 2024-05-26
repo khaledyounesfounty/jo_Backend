@@ -14,8 +14,7 @@ import java.io.Serializable;
  * DTO for {@link Billet}
  */
 @Value
-@NoArgsConstructor(force = true)
-public class BilletDto implements Serializable {
+public class BilletDto {
     ReservationDto reservation;
     UtilisateurDto idUtilisateur;
     QrcodeDto qrcode;
