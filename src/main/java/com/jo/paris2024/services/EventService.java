@@ -22,4 +22,6 @@ public interface EventService {
 
     List<Event> getEventByCategorie(String categorie);
 
+    int getNombreDeBilletEvent(String titre);
+
 }

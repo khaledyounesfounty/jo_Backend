@@ -14,4 +14,8 @@ public interface EventRepository extends JpaRepository<Event,Integer> {
     List<Event> findByTitre(String titre);
     List<Event> findAllByOrderByCategorieAscTitreAsc();
     List<Event> findByCategorie(String categorie);
+
+    @Query(value = "SELECT COUNT(*) from billet b join reservation r join jo2024exam.event e where r.id=b.id_reservation\n" +
+            "and e.id=r.id_event and e.titre= ?1", nativeQuery = true)
+    int getNombreDeBilletEvent(String titre);
 }

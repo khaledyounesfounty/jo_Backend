@@ -93,6 +93,10 @@ public class EventServiceImpl implements EventService {
         return eventRepository.findByCategorie(categorie);
     }
 
+    @Override
+    public int getNombreDeBilletEvent(String titre) {
+        return eventRepository.getNombreDeBilletEvent(titre);
+    }
 }
 
 
