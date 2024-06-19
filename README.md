@@ -16,7 +16,7 @@ Pour augmenter la sécurité de la connexion à la base de données, les variabl
 1. Copiez le fichier `.env` disponible aupres du responsable du project, le placer dans le répertoire `src/main/resources` 
 
 
-2. Configurez la method `corsFilter()` de la class `WebConfig.java` pour l'exécution en local. Ouvrez le fichier `.env` à la racine du projet et commentez la ligne suivante :
+2. Configurez la method `corsFilter()` de la class `WebConfig.java` pour l'exécution en local. Ouvrez le fichier et commentez le block suivant :
     ```java
     /* @Bean
     public CorsFilter corsFilter() {
@@ -30,7 +30,7 @@ Pour augmenter la sécurité de la connexion à la base de données, les variabl
         return new CorsFilter(source);
     }*/
     ```
-   et décommentez le block suivante :
+   et décommentez le block suivant :
     ```java
     @Bean
      public CorsFilter corsFilter() {
